@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:razer_admin/presentation/add_product/add_product.dart';
+import 'package:razer_admin/presentation/add_product/add_product_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

@@ -2,7 +2,11 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:razer_admin/core/constants.dart';
 import 'package:razer_admin/model/product_model.dart';
+import 'package:razer_admin/presentation/add_product/widgets/add_image_widget.dart';
+import 'package:razer_admin/presentation/add_product/widgets/add_varients_widget.dart';
+import 'package:razer_admin/presentation/add_product/widgets/text_fields_widget.dart';
 
 class AddProduct extends StatelessWidget {
   const AddProduct({super.key});
@@ -22,7 +26,7 @@ class AddProduct extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text(
-          'Edit Profile',
+          'Add New Product',
           style: TextStyle(color: Colors.green),
         ),
       ),
@@ -75,7 +79,7 @@ class AddProduct extends StatelessWidget {
                   fieldWidth: MediaQuery.of(context).size.width * 0.45,
                   controller: price_controller),
               textfield(
-                  hint: 'alt Price',
+                  hint: 'New Price',
                   keybord: TextInputType.number,
                   fieldWidth: MediaQuery.of(context).size.width * 0.45,
                   controller: altPrice_controller),
@@ -93,8 +97,28 @@ class AddProduct extends StatelessWidget {
           ),
           textfield(hint: 'Specification', controller: spec_controller),
           const SizedBox(
-            height: 40,
+            height: 20,
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              textfield(
+                  hint: 'Quantity',
+                  keybord: TextInputType.number,
+                  fieldWidth: MediaQuery.of(context).size.width * 0.45,
+                  controller: quantity_controller),
+              textfield(
+                  hint: 'Rating',
+                  keybord: TextInputType.number,
+                  fieldWidth: MediaQuery.of(context).size.width * 0.45,
+                  controller: rating_controller),
+            ],
+          ),
+          height_20,
+          const AddVarientsWidget(),
+          height_20,
+          AddImageWidget(),
+          height_20,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -126,51 +150,14 @@ class AddProduct extends StatelessWidget {
     );
   }
 
-  Row textfield(
-      {int lines = 1,
-      String hint = '',
-      TextInputType keybord = TextInputType.text,
-      required TextEditingController controller,
-      double fieldWidth = 380}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: fieldWidth,
-          child: TextFormField(
-            controller: controller,
-            keyboardType: keybord,
-            minLines: lines,
-            maxLines: 10,
-            textAlign: TextAlign.start,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-            decoration: InputDecoration(
-                // errorText: _validate ? 'wrong password' : null,
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green, width: 1.0),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white60, width: 1.0),
-                ),
-                label: Text(
-                  hint,
-                  style: const TextStyle(color: Colors.white70),
-                ),
-                hintStyle: const TextStyle(color: Colors.white70)),
-          ),
-        ),
-      ],
-    );
-  }
-
   Future addProduct({
     required String name,
     required String description,
     required String spec,
-    required String price,
+    String price = '0',
     String newPrice = '0',
-    required String quantity,
-    required String rating,
+    String quantity = '0',
+    String rating = '0',
     required List colors,
   }) async {
     final docProduct = FirebaseFirestore.instance.collection('products').doc();
