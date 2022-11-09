@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:razer_admin/application/Validator/validator_bloc.dart';
 
-Row textfield(
-    {int lines = 1,
-    String hint = '',
-    TextInputType keybord = TextInputType.text,
-    required TextEditingController controller,
-    double fieldWidth = 380}) {
+Row textfield({
+  int lines = 1,
+  String hint = '',
+  TextInputType keybord = TextInputType.text,
+  required TextEditingController controller,
+  double fieldWidth = 380,
+}) {
+  bool _validate;
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -30,7 +34,11 @@ Row textfield(
                 hint,
                 style: const TextStyle(color: Colors.white70),
               ),
+              // errorText: state.isValid ? 'Value Can\'t Be Empty' : null,
               hintStyle: const TextStyle(color: Colors.white70)),
+          // onChanged: (value) {
+          //   context.read<ValidatorBloc>().add(CheckValidity(string: value));
+          // },
         ),
       ),
     ],

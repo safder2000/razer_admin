@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:razer_admin/functions/image_fuctions/image_fuctions.dart';
 import 'package:razer_admin/presentation/add_product/widgets/color_picker_widget.dart';
+
+import '../../functions/add_product/add_product_fuctions.dart';
 
 part 'add_product_event.dart';
 part 'add_product_state.dart';
@@ -61,6 +64,22 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           quantity: state.quantity,
           rating: state.rating,
           images: newList));
+    });
+    on<SaveToDB>((event, emit) {
+      log(' event called');
+
+      addProduct(
+        name: event.name_controller,
+        description: event.description_controller,
+        spec: event.spec_controller,
+        price: event.price_controller.isEmpty ? '0' : event.price_controller,
+        quantity:
+            event.quantity_controller.isEmpty ? '0' : event.quantity_controller,
+        rating: event.rating_controller.isEmpty ? '0' : event.rating_controller,
+        colors: state.colors,
+        images: state.images,
+      );
+      emit(state);
     });
   }
 }

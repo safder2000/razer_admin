@@ -54,7 +54,6 @@ class AddImageWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               child: BlocBuilder<AddProductBloc, AddProductState>(
                 builder: (context, state) {
-                  log('building');
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: ListView.separated(

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:razer_admin/application/Validator/validator_bloc.dart';
 import 'package:razer_admin/application/add_product/add_product_bloc.dart';
 
 import 'package:razer_admin/presentation/home/main_screen.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (ctx) => AddProductBloc()),
+        BlocProvider(create: (ctx) => ValidatorBloc()),
       ],
       child: (MaterialApp(
         debugShowCheckedModeBanner: false,

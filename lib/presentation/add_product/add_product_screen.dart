@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:razer_admin/application/add_product/add_product_bloc.dart';
 import 'package:razer_admin/core/constants.dart';
 import 'package:razer_admin/model/product_model.dart';
 import 'package:razer_admin/presentation/add_product/widgets/add_image_widget.dart';
@@ -9,19 +11,19 @@ import 'package:razer_admin/presentation/add_product/widgets/add_varients_widget
 import 'package:razer_admin/presentation/add_product/widgets/text_fields_widget.dart';
 
 class AddProduct extends StatelessWidget {
-  const AddProduct({super.key});
-
+  AddProduct({super.key});
+  final name_controller = TextEditingController();
+  final price_controller = TextEditingController();
+  final description_controller = TextEditingController();
+  final altPrice_controller = TextEditingController();
+  final spec_controller = TextEditingController();
+  final quantity_controller = TextEditingController();
+  final rating_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width * 0.95;
-    final name_controller = TextEditingController();
-    final price_controller = TextEditingController();
-    final description_controller = TextEditingController();
-    final altPrice_controller = TextEditingController();
-    final spec_controller = TextEditingController();
-    final quantity_controller = TextEditingController();
-    final rating_controller = TextEditingController();
-    List<String> colors = [];
+
+    log('reloaded');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -35,33 +37,6 @@ class AddProduct extends StatelessWidget {
         child: ListView(children: [
           const SizedBox(
             height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: screenWidth * 0.6,
-                    width: screenWidth,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              'https://assets2.razerzone.com/images/pnx.assets/381e915d58d2b9759725c30a9f2c3a0f/razer-blade-15-2022-laptop-500x500.jpg',
-                            ))),
-                  ),
-                  const Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 20,
-                      child: Icon(Icons.add),
-                    ),
-                  )
-                ],
-              ),
-            ],
           ),
           const SizedBox(
             height: 40,
@@ -124,15 +99,14 @@ class AddProduct extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  addProduct(
-                    name: name_controller.text,
-                    description: description_controller.text,
-                    spec: spec_controller.text,
-                    price: price_controller.text,
-                    quantity: quantity_controller.text,
-                    rating: rating_controller.text,
-                    colors: colors,
-                  );
+                  BlocProvider.of<AddProductBloc>(context).add(SaveToDB(
+                    name_controller: name_controller.text,
+                    description_controller: description_controller.text,
+                    spec_controller: spec_controller.text,
+                    price_controller: price_controller.text,
+                    quantity_controller: quantity_controller.text,
+                    rating_controller: rating_controller.text,
+                  ));
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -148,34 +122,5 @@ class AddProduct extends StatelessWidget {
         ]),
       ),
     );
-  }
-
-  Future addProduct({
-    required String name,
-    required String description,
-    required String spec,
-    String price = '0',
-    String newPrice = '0',
-    String quantity = '0',
-    String rating = '0',
-    required List colors,
-  }) async {
-    final docProduct = FirebaseFirestore.instance.collection('products').doc();
-
-    final Product product = Product(
-      id: docProduct.id,
-      name: name,
-      description: description,
-      spec: spec,
-      price: double.parse(price),
-      quantity: double.parse(quantity),
-      colors: colors,
-      rating: double.parse(rating),
-    );
-    final json = product.toJson();
-
-    await docProduct.set(json);
-
-    log('added');
   }
 }
