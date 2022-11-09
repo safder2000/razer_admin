@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1057373585445",
+    "project_id": "razer-816cf",
+    "storage_bucket": "razer-816cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057373585445:android:21c5ee016d594a95b4ffcc",
+        "android_client_info": {
+          "package_name": "com.example.razer_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057373585445-ldvds9amvtvgmq0t64mia27enpp7d15u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPr_yHlOM15OQBeuUcq9RZRQ6N623RiWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057373585445-ldvds9amvtvgmq0t64mia27enpp7d15u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
