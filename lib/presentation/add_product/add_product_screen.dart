@@ -1,18 +1,19 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:razer_admin/application/add_product/add_product_bloc.dart';
 import 'package:razer_admin/core/constants.dart';
-import 'package:razer_admin/model/product_model.dart';
+
 import 'package:razer_admin/presentation/add_product/widgets/add_image_widget.dart';
 import 'package:razer_admin/presentation/add_product/widgets/add_varients_widget.dart';
+import 'package:razer_admin/presentation/add_product/widgets/color_picker_widget.dart';
 import 'package:razer_admin/presentation/add_product/widgets/text_fields_widget.dart';
 
 class AddProduct extends StatelessWidget {
   AddProduct({super.key});
   final name_controller = TextEditingController();
+  String? catogory;
   final price_controller = TextEditingController();
   final description_controller = TextEditingController();
   final altPrice_controller = TextEditingController();
@@ -37,6 +38,43 @@ class AddProduct extends StatelessWidget {
         child: ListView(children: [
           const SizedBox(
             height: 20,
+          ),
+          BlocBuilder<AddProductBloc, AddProductState>(
+            builder: (context, state) {
+              return DropdownButton<String>(
+                focusColor: Colors.amber,
+                iconEnabledColor: Colors.amber,
+                dropdownColor: Colors.grey,
+                items: <String>[
+                  'laptops',
+                  'audio',
+                  'chairs',
+                  'components',
+                  'console',
+                  'gear',
+                  'keyboards',
+                  'mice',
+                  'mobile',
+                  'streaming'
+                ].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  catogory = value;
+                  log('button rebuilded');
+
+                  BlocProvider.of<AddProductBloc>(context)
+                      .add(Catogory(catogory: catogory ?? 'laptops'));
+                },
+                hint: Text(
+                  state.catogory,
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            },
           ),
           const SizedBox(
             height: 40,
@@ -83,7 +121,7 @@ class AddProduct extends StatelessWidget {
                   fieldWidth: MediaQuery.of(context).size.width * 0.45,
                   controller: quantity_controller),
               textfield(
-                  hint: 'Rating',
+                  hint: 'Rating (0-5)',
                   keybord: TextInputType.number,
                   fieldWidth: MediaQuery.of(context).size.width * 0.45,
                   controller: rating_controller),
@@ -92,7 +130,7 @@ class AddProduct extends StatelessWidget {
           height_20,
           const AddVarientsWidget(),
           height_20,
-          AddImageWidget(),
+          const AddImageWidget(),
           height_20,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +144,9 @@ class AddProduct extends StatelessWidget {
                     price_controller: price_controller.text,
                     quantity_controller: quantity_controller.text,
                     rating_controller: rating_controller.text,
+                    catogory: catogory ?? 'others',
                   ));
+                  productAddedAlert(context, name_controller.text);
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -121,6 +161,34 @@ class AddProduct extends StatelessWidget {
           ),
         ]),
       ),
+    );
+  }
+
+  productAddedAlert(BuildContext context, String name) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      content: Text("$name added to database."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

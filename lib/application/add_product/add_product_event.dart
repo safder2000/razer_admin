@@ -22,6 +22,7 @@ class UnSelectImage extends AddProductEvent {
 
 class SaveToDB extends AddProductEvent {
   SaveToDB({
+    required this.catogory,
     required this.name_controller,
     required this.description_controller,
     required this.spec_controller,
@@ -29,10 +30,16 @@ class SaveToDB extends AddProductEvent {
     required this.quantity_controller,
     required this.rating_controller,
   });
+  final String catogory;
   final String name_controller;
   final String description_controller;
   final String spec_controller;
   final String price_controller;
   final String quantity_controller;
   final String rating_controller;
+}
+
+class Catogory extends AddProductEvent {
+  Catogory({required this.catogory});
+  final String catogory;
 }

@@ -26,7 +26,8 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
         _colors.add(event.color);
         log('color added');
       }
-      emit(AddProductState(
+      emit(
+        AddProductState(
           title: state.title,
           description: state.description,
           spec: state.spec,
@@ -34,12 +35,14 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           price: state.price,
           quantity: state.quantity,
           rating: state.rating,
-          images: state.images));
+          images: state.images,
+          catogory: state.catogory,
+        ),
+      );
     });
     on<SelectImage>((event, emit) async {
       final imageUrl = await ImageFunctions.getImage();
       // if (imageUrl != null) {}
-      log("${imageUrl}");
       List newImgList = ImageFunctions.addImage(state.images, imageUrl!);
       emit(AddProductState(
           title: state.title,
@@ -49,7 +52,8 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           price: state.price,
           quantity: state.quantity,
           rating: state.rating,
-          images: newImgList));
+          images: newImgList,
+          catogory: state.catogory));
     });
     on<UnSelectImage>((event, emit) {
       List newList = state.images;
@@ -63,7 +67,8 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           price: state.price,
           quantity: state.quantity,
           rating: state.rating,
-          images: newList));
+          images: newList,
+          catogory: state.catogory));
     });
     on<SaveToDB>((event, emit) {
       log(' event called');
@@ -78,8 +83,21 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
         rating: event.rating_controller.isEmpty ? '0' : event.rating_controller,
         colors: state.colors,
         images: state.images,
+        catogory: event.catogory,
       );
       emit(state);
+    });
+    on<Catogory>((event, emit) {
+      emit(AddProductState(
+          title: state.title,
+          description: state.description,
+          spec: state.spec,
+          colors: state.colors,
+          price: state.price,
+          quantity: state.quantity,
+          rating: state.rating,
+          images: state.images,
+          catogory: event.catogory));
     });
   }
 }

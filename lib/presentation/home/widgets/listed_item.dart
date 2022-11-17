@@ -1,111 +1,176 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:razer_admin/core/constants.dart';
+import 'package:razer_admin/functions/delete_product/delete_product.dart';
+import 'package:razer_admin/model/product_model.dart';
+import 'package:razer_admin/presentation/edit_product/edit_product_screen.dart';
 
 class ListedItem extends StatelessWidget {
   ListedItem({
     required this.title,
+    required this.product,
     required this.image,
+    required this.description,
+    required this.quantity,
+    required this.price,
+    required this.rating,
     Key? key,
   }) : super(key: key);
   String title;
   String image;
+  String description;
+  double quantity;
+  double price;
+  double rating;
+  Product product;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white12,
-      height: 220,
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        Container(
+          color: Colors.white12,
+          height: 260,
+          child: Column(
             children: [
-              width_5,
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    height: 90,
-                    width: 90,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(image.isEmpty
-                              ? 'https://img.freepik.com/premium-photo/spacious-modern-minimalis-living-room-empty-room-plant-wood-flooor-3d-rendering_33739-490.jpg?w=2000'
-                              : image)),
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
-              ),
-              width_5,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  height_10,
-                  SizedBox(
-                    width: 290,
-                    child: Text(
-                      title,
-                      style: TextStyle(fontSize: 16),
-                      overflow: TextOverflow.clip,
+                  width_5,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(image.isEmpty
+                                  ? 'https://img.freepik.com/premium-photo/spacious-modern-minimalis-living-room-empty-room-plant-wood-flooor-3d-rendering_33739-490.jpg?w=2000'
+                                  : image)),
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.black87,
+                        ),
+                      ),
                     ),
                   ),
-                  const Text(
-                    '\$ 199',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  )
+                  width_5,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 290,
+                        child: Row(
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.clip,
+                            ),
+                            Spacer(),
+                            Text(
+                              'ID : ${product.id}',
+                              style: TextStyle(
+                                  fontSize: 10, color: Colors.white60),
+                              overflow: TextOverflow.clip,
+                            ),
+                          ],
+                        ),
+                      ),
+                      height_5,
+                      SizedBox(
+                        width: 290,
+                        child: Text(
+                          ' $description',
+                          style: TextStyle(fontSize: 15),
+                          overflow: TextOverflow.clip,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          // itemCount(context);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(15.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.green),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('  Qty : $quantity  '),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '\$ $price',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.amberAccent),
+                      )
+                    ],
+                  ),
+                  const Spacer(),
+                  RatingBarIndicator(
+                    rating: rating,
+                    itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    itemCount: 5,
+                    itemSize: 30.0,
+                    direction: Axis.horizontal,
+                  ),
+                  width_10,
+                  width_10,
+                ],
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => EditProduct(
+                            product: product,
+                          ),
+                        ),
+                      ),
+                      child: CustomButton(
+                        text: 'Edit',
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        DeleteProduct.deleteProduct(id: product.id);
+                      },
+                      child: CustomButton(
+                        text: 'Remove',
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  itemCount(context);
-                },
-                child: Container(
-                  height: 30,
-                  width: 73,
-                  margin: const EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(children: [
-                    const Text('  Qty: 1'),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.green,
-                    )
-                  ]),
-                ),
-              ),
-              const Spacer(),
-              const Text(
-                'Devilvery by Sun Nov 6',
-                style: TextStyle(color: Colors.white70, fontSize: 13),
-              ),
-              width_10,
-              width_10,
-            ],
-          ),
-          const Spacer(),
-          Row(
-            children: [
-              CustomButton(
-                text: 'Save for later',
-              ),
-              CustomButton(
-                text: 'Remove',
-              ),
-              CustomButton(
-                text: 'Buy this now',
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+        height_10,
+      ],
     );
   }
 
@@ -227,15 +292,13 @@ class CustomButton extends StatelessWidget {
   String text;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(border: Border.all(color: Colors.white38)),
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(border: Border.all(color: Colors.white38)),
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
       ),
     );

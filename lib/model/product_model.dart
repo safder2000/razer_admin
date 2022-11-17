@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Product {
-  String id;
+  final String id;
   final String name;
   final String description;
   final String spec;
@@ -11,7 +11,7 @@ class Product {
   final double rating;
   final List images;
   Product({
-    this.id = '',
+    required this.id,
     required this.name,
     required this.description,
     required this.spec,
@@ -34,12 +34,14 @@ class Product {
       };
 
   static Product fromJson(Map<String, dynamic> json) => Product(
-      name: json['id'],
-      description: json['description'],
-      spec: json['spec'],
-      price: json['price'],
-      quantity: json['quantity'],
-      colors: json['colors'],
-      rating: json['rating'],
-      images: json['images']);
+        name: json['name'],
+        id: json['id'],
+        description: json['description'],
+        spec: json['spec'],
+        price: json['price'],
+        quantity: json['quantity'],
+        colors: json['colors'],
+        rating: json['rating'],
+        images: json['images'],
+      );
 }

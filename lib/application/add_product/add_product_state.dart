@@ -10,6 +10,7 @@ class AddProductState {
   double rating;
   List images;
   List colors;
+  String catogory;
 
   AddProductState({
     required this.title,
@@ -20,6 +21,7 @@ class AddProductState {
     required this.quantity,
     required this.rating,
     required this.images,
+    required this.catogory,
   });
 }
 
@@ -34,5 +36,6 @@ class InitialState extends AddProductState {
           rating: 0,
           images: [],
           colors: [],
+          catogory: '',
         );
 }

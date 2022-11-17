@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:razer_admin/model/product_model.dart';
 
 Future addProduct({
+  required String catogory,
   required String name,
   required String description,
   required String spec,
@@ -14,8 +15,12 @@ Future addProduct({
   required List colors,
   required List images,
 }) async {
-  final docProduct = FirebaseFirestore.instance.collection('products').doc();
-
+  final docProduct = FirebaseFirestore.instance
+      .collection('products')
+      .doc('categories')
+      .collection(catogory)
+      .doc();
+  log('adding product to $catogory');
   final Product product = Product(
     id: docProduct.id,
     name: name,
