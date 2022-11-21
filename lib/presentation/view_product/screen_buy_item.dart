@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:razer_admin/core/constants.dart';
 import 'package:razer_admin/model/product_model.dart';
 import 'package:razer_admin/presentation/view_product/widgets/varients_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ViewSingleProduct extends StatelessWidget {
   ViewSingleProduct({super.key, required this.product});
@@ -14,24 +17,42 @@ class ViewSingleProduct extends StatelessWidget {
         actions: [],
         backgroundColor: Colors.black,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
-          Container(
-            color: Color.fromARGB(19, 255, 255, 255),
-            height: 250,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              // physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: product.images.length,
-              itemBuilder: (BuildContext context, int index) => imageContainer(
-                  context, product.images[index], index, product.images.length),
-              separatorBuilder: (BuildContext context, int index) => SizedBox(
-                width: 10,
-              ),
-            ),
+          CarouselSlider(
+            options: CarouselOptions(height: 400.0),
+            items: product.images.map((i) {
+              return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                // physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: product.images.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    imageContainer(
+                  context,
+                  product.images[index],
+                ),
+                separatorBuilder: (BuildContext context, int index) => SizedBox(
+                  width: 10,
+                ),
+              );
+            }).toList(),
           ),
+          // Container(
+          //   color: Color.fromARGB(19, 255, 255, 255),
+          //   height: 250,
+          //   child: ListView.separated(
+          //     scrollDirection: Axis.horizontal,
+          //     // physics: const NeverScrollableScrollPhysics(),
+          //     shrinkWrap: true,
+          //     itemCount: product.images.length,
+          //     itemBuilder: (BuildContext context, int index) => imageContainer(
+          //         context, product.images[index], index, product.images.length),
+          //     separatorBuilder: (BuildContext context, int index) => SizedBox(
+          //       width: 10,
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 10,
           ),
@@ -150,7 +171,23 @@ class ViewSingleProduct extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
               )),
-          Spacer(),
+          height_10,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: RatingBarIndicator(
+              rating: product.rating,
+              itemBuilder: (context, index) => Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              itemCount: 5,
+              itemSize: 35.0,
+              direction: Axis.horizontal,
+            ),
+          ),
+          SizedBox(
+            height: 60,
+          ),
           Row(
             children: [
               Expanded(
@@ -206,7 +243,7 @@ class ViewSingleProduct extends StatelessWidget {
     );
   }
 
-  imageContainer(context, imgUrl, index, total) {
+  imageContainer(context, imgUrl) {
     final srcWidth = MediaQuery.of(context).size.width * 0.9;
     return Stack(children: [
       Container(
@@ -219,18 +256,18 @@ class ViewSingleProduct extends StatelessWidget {
           ),
         ),
       ),
-      Positioned(
-        bottom: 5,
-        right: 5,
-        child: GestureDetector(
-          onTap: () {},
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 20,
-            child: Text('${index + 1}/$total'),
-          ),
-        ),
-      )
+      // Positioned(
+      //   bottom: 5,
+      //   right: 5,
+      //   child: GestureDetector(
+      //     onTap: () {},
+      //     child: CircleAvatar(
+      //       backgroundColor: Colors.white,
+      //       radius: 20,
+      //       child: Text('${index + 1}/$total'),
+      //     ),
+      //   ),
+      // )
     ]);
   }
 }

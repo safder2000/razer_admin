@@ -4,9 +4,7 @@ import 'package:razer_admin/core/constants.dart';
 import 'package:razer_admin/functions/delete_product/delete_product.dart';
 import 'package:razer_admin/model/product_model.dart';
 import 'package:razer_admin/presentation/edit_product/edit_product_screen.dart';
-import 'package:razer_admin/presentation/view_product/product_view_page.dart';
 import 'package:razer_admin/presentation/view_product/screen_buy_item.dart';
-import 'package:razer_admin/presentation/view_product/screen_order_summary.dart';
 
 class ListedItem extends StatelessWidget {
   ListedItem({
