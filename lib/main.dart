@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:razer_admin/application/Validator/validator_bloc.dart';
 import 'package:razer_admin/application/add_product/add_product_bloc.dart';
 import 'package:razer_admin/application/edit_product/edit_product_bloc.dart';
+import 'package:razer_admin/application/main_bloc/main_page_bloc.dart';
 
 import 'package:razer_admin/presentation/home/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (ctx) => AddProductBloc()),
         BlocProvider(create: (ctx) => ValidatorBloc()),
         BlocProvider(create: (ctx) => EditProductBloc()),
+        BlocProvider(create: (ctx) => MainPageBloc()),
       ],
       child: (MaterialApp(
         debugShowCheckedModeBanner: false,

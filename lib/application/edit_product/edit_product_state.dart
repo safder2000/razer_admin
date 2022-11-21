@@ -21,6 +21,7 @@ class InitialState extends EditProductState {
             rating: 0,
             images: [],
             id: '',
+            category: '',
           ),
         );
 }

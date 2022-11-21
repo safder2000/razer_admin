@@ -10,18 +10,11 @@ class ListedItem extends StatelessWidget {
     required this.title,
     required this.product,
     required this.image,
-    required this.description,
-    required this.quantity,
-    required this.price,
-    required this.rating,
     Key? key,
   }) : super(key: key);
   String title;
   String image;
-  String description;
-  double quantity;
-  double price;
-  double rating;
+
   Product product;
   @override
   Widget build(BuildContext context) {
@@ -83,7 +76,7 @@ class ListedItem extends StatelessWidget {
                       SizedBox(
                         width: 290,
                         child: Text(
-                          ' $description',
+                          ' ${product.description}',
                           style: TextStyle(fontSize: 15),
                           overflow: TextOverflow.clip,
                         ),
@@ -108,12 +101,12 @@ class ListedItem extends StatelessWidget {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('  Qty : $quantity  '),
+                            child: Text('  Qty : ${product.quantity}  '),
                           ),
                         ),
                       ),
                       Text(
-                        '\$ $price',
+                        '\$ ${product.price}',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -123,7 +116,7 @@ class ListedItem extends StatelessWidget {
                   ),
                   const Spacer(),
                   RatingBarIndicator(
-                    rating: rating,
+                    rating: product.rating,
                     itemBuilder: (context, index) => Icon(
                       Icons.star,
                       color: Colors.amber,
@@ -157,7 +150,8 @@ class ListedItem extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        DeleteProduct.deleteProduct(id: product.id);
+                        DeleteProduct.deleteProduct(
+                            id: product.id, category: product.category);
                       },
                       child: CustomButton(
                         text: 'Remove',

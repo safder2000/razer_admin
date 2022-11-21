@@ -16,8 +16,8 @@ Future addProduct({
   required List images,
 }) async {
   final docProduct = FirebaseFirestore.instance
-      .collection('products')
-      .doc('categories')
+      .collection('categories')
+      .doc(catogory)
       .collection(catogory)
       .doc();
   log('adding product to $catogory');
@@ -31,6 +31,7 @@ Future addProduct({
     colors: colors,
     rating: double.parse(rating),
     images: images,
+    category: catogory,
   );
   final json = product.toJson();
   log('befre adding');

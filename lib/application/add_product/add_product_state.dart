@@ -36,6 +36,6 @@ class InitialState extends AddProductState {
           rating: 0,
           images: [],
           colors: [],
-          catogory: '',
+          catogory: 'keyboards',
         );
 }

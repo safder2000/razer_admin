@@ -20,16 +20,16 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
     on<LoadOldData>((event, emit) {
       emit(EditProductState(
         product: Product(
-          name: event.product.name,
-          description: event.product.description,
-          spec: event.product.spec,
-          colors: event.product.colors,
-          price: event.product.price,
-          quantity: event.product.quantity,
-          rating: event.product.rating,
-          images: event.product.images,
-          id: state.product.id,
-        ),
+            name: event.product.name,
+            description: event.product.description,
+            spec: event.product.spec,
+            colors: event.product.colors,
+            price: event.product.price,
+            quantity: event.product.quantity,
+            rating: event.product.rating,
+            images: event.product.images,
+            id: state.product.id,
+            category: state.product.category),
       ));
     });
     on<AddVarients>((event, emit) {
@@ -55,6 +55,7 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
         rating: state.product.rating,
         images: state.product.images,
         id: state.product.id,
+        category: state.product.category,
       )));
     });
     on<SelectImage>((event, emit) async {
@@ -75,6 +76,7 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
             rating: state.product.rating,
             price: state.product.price,
             id: state.product.id,
+            category: state.product.category,
           ),
         ),
       );
@@ -92,7 +94,8 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
               quantity: state.product.quantity,
               rating: state.product.rating,
               images: newList,
-              id: state.product.id),
+              id: state.product.id,
+              category: state.product.category),
         ));
       });
       on<UpdateData>((event, emit) async {

@@ -55,6 +55,7 @@ class UpdateProductFunctions {
       colors: colors,
       rating: double.parse(rating),
       images: images,
+      category: '',
     );
     // log('Updating.... ${product.id}');
 

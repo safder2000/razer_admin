@@ -144,7 +144,7 @@ class AddProduct extends StatelessWidget {
                     price_controller: price_controller.text,
                     quantity_controller: quantity_controller.text,
                     rating_controller: rating_controller.text,
-                    catogory: catogory ?? 'others',
+                    catogory: catogory ?? 'laptops',
                   ));
                   productAddedAlert(context, name_controller.text);
                 },
