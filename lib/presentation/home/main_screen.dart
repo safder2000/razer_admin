@@ -23,22 +23,57 @@ class MainScreen extends StatelessWidget {
         String? category;
 
         return Scaffold(
-          appBar: AppBar(backgroundColor: Colors.green, actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => AddProduct(),
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.add,
-                  size: 35,
-                )),
-            width_10,
-          ]),
+          appBar: AppBar(
+              backgroundColor: Colors.green,
+              title: Text('Product listing'),
+              actions: [
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => AddProduct(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.search,
+                      size: 35,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => AddProduct(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.shopping_cart,
+                      size: 35,
+                    )),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => AddProduct(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      size: 35,
+                    )),
+                width_10,
+              ]),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

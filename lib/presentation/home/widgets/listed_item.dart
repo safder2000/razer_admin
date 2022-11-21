@@ -4,6 +4,9 @@ import 'package:razer_admin/core/constants.dart';
 import 'package:razer_admin/functions/delete_product/delete_product.dart';
 import 'package:razer_admin/model/product_model.dart';
 import 'package:razer_admin/presentation/edit_product/edit_product_screen.dart';
+import 'package:razer_admin/presentation/view_product/product_view_page.dart';
+import 'package:razer_admin/presentation/view_product/screen_buy_item.dart';
+import 'package:razer_admin/presentation/view_product/screen_order_summary.dart';
 
 class ListedItem extends StatelessWidget {
   ListedItem({
@@ -20,146 +23,156 @@ class ListedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          color: Colors.white12,
-          height: 260,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  width_5,
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        height: 90,
-                        width: 90,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(image.isEmpty
-                                  ? 'https://img.freepik.com/premium-photo/spacious-modern-minimalis-living-room-empty-room-plant-wood-flooor-3d-rendering_33739-490.jpg?w=2000'
-                                  : image)),
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ),
-                  width_5,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 290,
-                        child: Row(
-                          children: [
-                            Text(
-                              title,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              overflow: TextOverflow.clip,
-                            ),
-                            Spacer(),
-                            Text(
-                              'ID : ${product.id}',
-                              style: TextStyle(
-                                  fontSize: 10, color: Colors.white60),
-                              overflow: TextOverflow.clip,
-                            ),
-                          ],
-                        ),
-                      ),
-                      height_5,
-                      SizedBox(
-                        width: 290,
-                        child: Text(
-                          ' ${product.description}',
-                          style: TextStyle(fontSize: 15),
-                          overflow: TextOverflow.clip,
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // itemCount(context);
-                        },
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) =>
+                      ViewSingleProduct(product: product)),
+            );
+          },
+          child: Container(
+            color: Colors.white12,
+            height: 260,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    width_5,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
                         child: Container(
-                          margin: const EdgeInsets.all(15.0),
+                          height: 90,
+                          width: 90,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.green),
+                            image: DecorationImage(
+                                image: NetworkImage(image.isEmpty
+                                    ? 'https://img.freepik.com/premium-photo/spacious-modern-minimalis-living-room-empty-room-plant-wood-flooor-3d-rendering_33739-490.jpg?w=2000'
+                                    : image)),
                             borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('  Qty : ${product.quantity}  '),
+                            color: Colors.black87,
                           ),
                         ),
                       ),
-                      Text(
-                        '\$ ${product.price}',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.amberAccent),
-                      )
-                    ],
-                  ),
-                  const Spacer(),
-                  RatingBarIndicator(
-                    rating: product.rating,
-                    itemBuilder: (context, index) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
                     ),
-                    itemCount: 5,
-                    itemSize: 30.0,
-                    direction: Axis.horizontal,
-                  ),
-                  width_10,
-                  width_10,
-                ],
-              ),
-              const Spacer(),
-              Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => EditProduct(
-                            product: product,
+                    width_5,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 290,
+                          child: Row(
+                            children: [
+                              Text(
+                                title,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.clip,
+                              ),
+                              Spacer(),
+                              Text(
+                                'ID : ${product.id}',
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white60),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ],
                           ),
                         ),
+                        height_5,
+                        SizedBox(
+                          width: 290,
+                          child: Text(
+                            ' ${product.description}',
+                            style: TextStyle(fontSize: 15),
+                            overflow: TextOverflow.clip,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // itemCount(context);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(15.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.green),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('  Qty : ${product.quantity}  '),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '\$ ${product.price}',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.amberAccent),
+                        )
+                      ],
+                    ),
+                    const Spacer(),
+                    RatingBarIndicator(
+                      rating: product.rating,
+                      itemBuilder: (context, index) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
                       ),
-                      child: CustomButton(
-                        text: 'Edit',
+                      itemCount: 5,
+                      itemSize: 30.0,
+                      direction: Axis.horizontal,
+                    ),
+                    width_10,
+                    width_10,
+                  ],
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => EditProduct(
+                              product: product,
+                            ),
+                          ),
+                        ),
+                        child: CustomButton(
+                          text: 'Edit',
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        productDeleteAlert(context, product);
-                      },
-                      child: CustomButton(
-                        text: 'Remove',
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          productDeleteAlert(context, product);
+                        },
+                        child: CustomButton(
+                          text: 'Remove',
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         height_10,
