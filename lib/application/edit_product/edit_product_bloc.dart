@@ -98,10 +98,10 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
               category: state.product.category),
         ));
       });
-      on<UpdateData>((event, emit) async {
+      on<UpdateNewData>((event, emit) {
         log('Update event called');
 
-        await UpdateProductFunctions.updateProduct(
+        UpdateProductFunctions.updateProduct(
           name: event.name_controller,
           description: event.description_controller,
           spec: event.spec_controller,
@@ -113,7 +113,19 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
           context: event.context,
           product: event.product,
         );
-        emit(state);
+        emit(EditProductState(
+          product: Product(
+              name: state.product.name,
+              description: state.product.description,
+              spec: state.product.spec,
+              colors: state.product.colors,
+              price: state.product.price,
+              quantity: state.product.quantity,
+              rating: state.product.rating,
+              images: state.product.images,
+              id: state.product.id,
+              category: state.product.category),
+        ));
       });
     });
   }

@@ -7,6 +7,12 @@ class DeleteProduct {
         .doc(category)
         .collection(category)
         .doc(id);
+    final deletefromall = FirebaseFirestore.instance
+        .collection('categories')
+        .doc('all')
+        .collection('all')
+        .doc(id);
     docProduct.delete();
+    deletefromall.delete();
   }
 }

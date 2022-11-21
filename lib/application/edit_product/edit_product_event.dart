@@ -25,8 +25,8 @@ class ColorPicker extends EditProductEvent {
 
 class SelectImage extends EditProductEvent {}
 
-class UpdateData extends EditProductEvent {
-  UpdateData({
+class UpdateNewData extends EditProductEvent {
+  UpdateNewData({
     required this.context,
     required this.name_controller,
     required this.description_controller,

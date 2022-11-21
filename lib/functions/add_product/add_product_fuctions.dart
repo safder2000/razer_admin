@@ -35,8 +35,13 @@ Future addProduct({
   );
   final json = product.toJson();
   log('befre adding');
-
+  final allProduc = FirebaseFirestore.instance
+      .collection('categories')
+      .doc('all')
+      .collection('all')
+      .doc(docProduct.id);
   await docProduct.set(json);
+  await allProduc.set(json);
 
   log('added');
 }

@@ -23,40 +23,7 @@ class MainScreen extends StatelessWidget {
         String? category;
 
         return Scaffold(
-          appBar: AppBar(backgroundColor: Colors.black, actions: [
-            DropdownButton<String>(
-              focusColor: Colors.amber,
-              iconEnabledColor: Colors.amber,
-              dropdownColor: Colors.grey,
-              items: <String>[
-                'laptops',
-                'audio',
-                'chairs',
-                'components',
-                'console',
-                'gear',
-                'keyboards',
-                'mice',
-                'mobile',
-                'streaming'
-              ].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (value) {
-                category = value;
-                log('button rebuilded');
-
-                BlocProvider.of<MainPageBloc>(context)
-                    .add(DisplayCategory(category: category ?? 'laptops'));
-              },
-              hint: Text(
-                state.category,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+          appBar: AppBar(backgroundColor: Colors.green, actions: [
             IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -72,28 +39,103 @@ class MainScreen extends StatelessWidget {
                 )),
             width_10,
           ]),
-          body: StreamBuilder<List<Product>>(
-            stream: readProducts(state.category),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('Somthing went wrong! ${snapshot.data} ');
-              } else if (snapshot.hasData) {
-                final products = snapshot.data!;
-                if (products.isEmpty) {
-                  return Center(
-                    child: Text('There is no product under this category'),
-                  );
-                } else {
-                  return ListView(
-                    children: products.map(buildProduct).toList(),
-                  );
-                }
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.green,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.56,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            'Category : ',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DropdownButton<String>(
+                          dropdownColor: Color.fromARGB(255, 213, 213, 213),
+                          items: <String>[
+                            'all',
+                            'laptops',
+                            'audio',
+                            'chairs',
+                            'components',
+                            'console',
+                            'gear',
+                            'keyboards',
+                            'mice',
+                            'mobile',
+                            'streaming'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            category = value;
+                            log('button rebuilded');
+
+                            BlocProvider.of<MainPageBloc>(context).add(
+                                DisplayCategory(
+                                    category: category ?? 'laptops'));
+                          },
+                          hint: Text(
+                            state.category,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              StreamBuilder<List<Product>>(
+                stream: readProducts(state.category),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return SizedBox(
+                        height: MediaQuery.of(context).size.width,
+                        child: Center(
+                            child: Text(
+                                'Somthing went wrong! ${snapshot.data} ')));
+                  } else if (snapshot.hasData) {
+                    final products = snapshot.data!;
+                    if (products.isEmpty) {
+                      return SizedBox(
+                          height: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child:
+                                Text('There is no product under this category'),
+                          ));
+                    } else {
+                      return ListView(
+                        shrinkWrap: true,
+                        children: products.map(buildProduct).toList(),
+                      );
+                    }
+                  } else {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.width,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
         );
       },

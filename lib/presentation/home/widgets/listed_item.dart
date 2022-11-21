@@ -150,8 +150,7 @@ class ListedItem extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        DeleteProduct.deleteProduct(
-                            id: product.id, category: product.category);
+                        productDeleteAlert(context, product);
                       },
                       child: CustomButton(
                         text: 'Remove',
@@ -274,6 +273,47 @@ class ListedItem extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  productDeleteAlert(BuildContext context, Product product) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK", style: TextStyle(fontWeight: FontWeight.bold)),
+      onPressed: () {
+        DeleteProduct.deleteProduct(id: product.id, category: product.category);
+        Navigator.pop(context);
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: Text(
+        "CANCEL",
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Color.fromARGB(255, 59, 59, 59),
+      content: Text(
+        "Are you sure want to remove ${product.name} .",
+        style: TextStyle(color: Colors.white),
+      ),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

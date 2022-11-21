@@ -11,16 +11,19 @@ class UpdateProductFunctions {
     required String name,
     required String description,
     required String spec,
-    String price = '0',
+    required String price,
     String newPrice = '0',
     String quantity = '0',
     String rating = '0',
     required List colors,
     required List images,
   }) async {
-    log('update function reached');
-    final docProduct =
-        FirebaseFirestore.instance.collection('products').doc(product.id);
+    log(name);
+    final docProduct = FirebaseFirestore.instance
+        .collection('categories')
+        .doc(product.category)
+        .collection(product.category)
+        .doc(product.id);
     // await UpdateProductFunctions.updateProduct(
     //   name: event.name_controller.trim().isEmpty
     //       ? state.product.name
@@ -47,21 +50,26 @@ class UpdateProductFunctions {
     // );
     final Product updatedProduct = Product(
       id: docProduct.id,
-      name: 'gg',
+      name: name,
       description: description,
       spec: spec,
-      price: double.parse(price),
-      quantity: double.parse(quantity),
+      price: price == '0' ? product.price : double.parse(price),
+      quantity: quantity == '0' ? product.quantity : double.parse(quantity),
       colors: colors,
-      rating: double.parse(rating),
+      rating: rating == '0' ? product.rating : double.parse(rating),
       images: images,
-      category: '',
+      category: product.category,
     );
     // log('Updating.... ${product.id}');
 
     final json = updatedProduct.toJson();
-
-    await docProduct.update(json);
+    final allproducts = FirebaseFirestore.instance
+        .collection('categories')
+        .doc('all')
+        .collection('all')
+        .doc(product.id);
+    await docProduct.set(json);
+    await allproducts.set(json);
 
     productUpdatedAlert(context, updatedProduct.name);
     // log('Updated ${product.name}');

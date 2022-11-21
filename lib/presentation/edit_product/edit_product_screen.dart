@@ -10,6 +10,7 @@ import 'package:razer_admin/presentation/Edit_product/widgets/text_fields_widget
 
 import 'package:razer_admin/presentation/edit_product/widgets/edit_image_widget.dart';
 
+import '../../functions/update_product/update_product_fuctions.dart';
 import 'widgets/edit_varients_widget.dart';
 
 class EditProduct extends StatelessWidget {
@@ -25,7 +26,6 @@ class EditProduct extends StatelessWidget {
   final rating_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    log('product id == ${product.id}');
     BlocProvider.of<EditProductBloc>(context)
         .add(LoadOldData(product: product));
     final screenWidth = MediaQuery.of(context).size.width * 0.95;
@@ -114,25 +114,54 @@ class EditProduct extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<EditProductBloc>(context).add(UpdateData(
-                    name_controller: name_controller.text,
-                    description_controller: description_controller.text,
-                    spec_controller: spec_controller.text,
-                    price_controller: price_controller.text,
-                    quantity_controller: quantity_controller.text,
-                    rating_controller: rating_controller.text,
-                    context: context,
-                    product: product,
-                  ));
-                  // Navigator.pop(context);
+              BlocBuilder<EditProductBloc, EditProductState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      log('update button clicked');
+                      // BlocProvider.of<EditProductBloc>(context).add(UpdateNewData(
+                      //   name_controller: name_controller.text,
+                      //   description_controller: description_controller.text,
+                      //   spec_controller: spec_controller.text,
+                      //   price_controller: price_controller.text,
+                      //   quantity_controller: quantity_controller.text,
+                      //   rating_controller: rating_controller.text,
+                      //   context: context,
+                      //   product: product,
+                      // ));
+                      UpdateProductFunctions.updateProduct(
+                        name: name_controller.text.trim().isEmpty
+                            ? product.name
+                            : name_controller.text.trim(),
+                        description: description_controller.text.trim().isEmpty
+                            ? product.description
+                            : description_controller.text.trim(),
+                        spec: spec_controller.text.trim().isEmpty
+                            ? product.spec
+                            : spec_controller.text.trim(),
+                        price: price_controller.text.trim().isEmpty
+                            ? product.price.toString()
+                            : price_controller.text.trim(),
+                        quantity: quantity_controller.text.trim().isEmpty
+                            ? product.quantity.toString()
+                            : quantity_controller.text.trim(),
+                        rating: rating_controller.text.trim().isEmpty
+                            ? product.rating.toString()
+                            : rating_controller.text.trim(),
+                        colors: state.product.colors,
+                        images: state.product.images,
+                        context: context,
+                        product: product,
+                      );
+                      // Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        textStyle: const TextStyle(fontSize: 20),
+                        backgroundColor: Colors.green),
+                    child: const Text('  UPDATE  '),
+                  );
                 },
-                style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.green),
-                child: const Text('  UPDATE  '),
               ),
             ],
           ),
