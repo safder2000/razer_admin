@@ -10,6 +10,7 @@ import 'package:razer_admin/core/constants.dart';
 import 'package:razer_admin/model/product_model.dart';
 import 'package:razer_admin/presentation/add_product/add_product_screen.dart';
 import 'package:razer_admin/presentation/home/widgets/listed_item.dart';
+import 'package:razer_admin/presentation/search/screen_search.dart';
 
 import '../../functions/read_products/read_products.dart';
 
@@ -35,7 +36,7 @@ class MainScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => AddProduct(),
+                          builder: (BuildContext context) => ScreenSearch(),
                         ),
                       );
                     },

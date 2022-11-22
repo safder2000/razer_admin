@@ -31,6 +31,8 @@ class ViewSingleProduct extends StatelessWidget {
                     imageContainer(
                   context,
                   product.images[index],
+                  index,
+                  product.images.length,
                 ),
                 separatorBuilder: (BuildContext context, int index) => SizedBox(
                   width: 10,
@@ -243,31 +245,31 @@ class ViewSingleProduct extends StatelessWidget {
     );
   }
 
-  imageContainer(context, imgUrl) {
+  imageContainer(context, imgUrl, index, total) {
     final srcWidth = MediaQuery.of(context).size.width * 0.9;
     return Stack(children: [
       Container(
         width: srcWidth,
         height: srcWidth * 0.7,
         decoration: BoxDecoration(
-          color: Color.fromARGB(9, 255, 255, 255),
+          color: Color.fromARGB(255, 0, 0, 0),
           image: DecorationImage(
             image: NetworkImage(imgUrl),
           ),
         ),
       ),
-      // Positioned(
-      //   bottom: 5,
-      //   right: 5,
-      //   child: GestureDetector(
-      //     onTap: () {},
-      //     child: CircleAvatar(
-      //       backgroundColor: Colors.white,
-      //       radius: 20,
-      //       child: Text('${index + 1}/$total'),
-      //     ),
-      //   ),
-      // )
+      Positioned(
+        bottom: 5,
+        right: 5,
+        child: GestureDetector(
+          onTap: () {},
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 20,
+            child: Text('${index + 1}/$total'),
+          ),
+        ),
+      )
     ]);
   }
 }
