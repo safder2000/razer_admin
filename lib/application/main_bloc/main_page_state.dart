@@ -9,6 +9,6 @@ class MainPageState {
 class InitialState extends MainPageState {
   InitialState()
       : super(
-          category: 'keyboards',
+          category: 'all',
         );
 }
